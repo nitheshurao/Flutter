@@ -5,7 +5,6 @@ import 'package:my_app/model/catalog.dart';
 import 'package:my_app/widgets/drawer.dart';
 import 'package:my_app/widgets/item_widget.dart';
 import 'dart:convert';
-import "package:velocity_x/velocity_x.dart";//to UI
 
 class Home_page extends StatefulWidget {
   @override
