@@ -1,11 +1,18 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+
 import 'package:my_app/model/catalog.dart';
-import 'package:my_app/widgets/drawer.dart';
-import 'package:my_app/widgets/item_widget.dart';
+import 'package:my_app/utils/routes.dart';
+import 'package:my_app/utils/them.dart';
+import 'package:my_app/widgets/Home_widgets/Catalog_Header.dart';
+import 'package:my_app/widgets/Home_widgets/Catalog_List.dart';
+
 import 'dart:convert';
-import "package:velocity_x/velocity_x.dart";//to UI
+import "package:velocity_x/velocity_x.dart";
+
+//to UI
 
 class Home_page extends StatefulWidget {
   @override
@@ -38,74 +45,52 @@ class _Home_pageState extends State<Home_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("App"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: (CaltelogModels.items != null && CaltelogModels.items.isNotEmpty)
-            ? GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 16,
-                ),
-                itemBuilder: (context, index) {
-                  final item = CaltelogModels.items[index];
+        appBar: AppBar(),
+        backgroundColor: context.canvasColor,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.pushNamed(context, MyRoutes.CarRoute),
+          // backgroundColor: Mythemes.darkbluishcolor,
+          backgroundColor: context.theme.backgroundColor,
+          child: Icon(CupertinoIcons.cart),
+        ),
+        body: SafeArea(
+          child: Container(
+            padding: Vx.m32,
+            child: Column(
+              children: [
+                //  Vx.hexToColor(code)
+                CatalogHeader(),
 
-                  return Card(
-                    clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
-                    child: GridTile(
-                      header: Container(
-                        child: Text(
-                          item.name,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                        ),
-                      ),
-                      child: Image.network(item.image),
-                      footer: Container(
-                        child: Text(
-                          item.price.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        padding: EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          color: Colors.deepPurple,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                itemCount: CaltelogModels.items.length,
-              )
-            : Center(
-                // if not case
-                child: CircularProgressIndicator(),
-              ),
-        // child: (CaltelogModels.items != null &&
-        //         CaltelogModels.items
-        //             .isNotEmpty) //cheking is emplty or not meen time showing looding
-        //     ? ListView.builder(
-        //         // try to use //grid view
-        //         itemCount: CaltelogModels.items.length,
-        //         itemBuilder: (context, index) {
-        //           return Itemwidget(
-        //             item: CaltelogModels.items[index],
-        //           );
-        //         },
-        //       )
-        //     : Center(
-        //         // if not case
-        //         child: CircularProgressIndicator(),
-        //       ),
-      ),
-      drawer: MyDrawer(),
-    );
+                if (CaltelogModels.items != null &&
+                    CaltelogModels.items.isNotEmpty)
+                  CatalogList().expand() //refre to expand use
+                else
+                  Center(
+                    child: CircularProgressIndicator(),
+                  )
+              ],
+            ),
+          ),
+        ));
   }
 }
+
+//catalog header
+// CatalogList
+
+// class CatalogImage extends StatelessWidget {
+//   final String image;
+
+//   const CatalogImage({Key? key, required this.image}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Image.network(image)
+//         .box
+//         .rounded
+//         .py16 //padding
+//         .color(Mythemes.creamColor)
+//         .make()
+//         .py16() //padding
+//         .w40(context); //wodth of image inside padding
+//   }
+// }

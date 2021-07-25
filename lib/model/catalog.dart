@@ -1,6 +1,13 @@
 import 'dart:convert';
 
 class CaltelogModels {
+//singleton
+  static final catModel = CaltelogModels._internal();
+
+  CaltelogModels._internal();
+
+  factory CaltelogModels() => catModel;
+
   static List<Item> items = [
     // Item(
     //   id: 1,
@@ -10,6 +17,13 @@ class CaltelogModels {
     //   image: "",
     // ),
   ];
+
+//get items by Id
+  Item getById(int id) =>
+      items.firstWhere((element) => element.id == id, orElse: null);
+
+  // get itme by position
+  Item getByPosition(int pos) => items[pos];
 }
 
 class Item {
